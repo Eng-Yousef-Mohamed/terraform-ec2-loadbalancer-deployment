@@ -20,12 +20,8 @@ variable "vpc_Name" {
 }
 
 
-# variable "Availability_Zones_subnet" {
-#   description = "Availability Zones subnet for each subnet"
-#   type = list(string)
-# }
-
-variable "enable_nat_gateway" {
-  description = "this used to enable nat getway for preivte subnet"
-  type = string
+variable "availability_Zones_subnet" {
+  description = "Availability Zones subnet for each subnet"
+  type = list(string)
 }
+
