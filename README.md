@@ -89,8 +89,9 @@ cd terraform-ec2-loadbalancer-deployment
    
 ```bash
 terraform init
-This will initialize Terraform and download the required providers and modules.
 ```
+This will initialize Terraform and download the required providers and modules.
+
 3. **Set up Remote State**
 Navigate to the remote-state-setup/ directory and apply the configuration to set up the remote state:
 
