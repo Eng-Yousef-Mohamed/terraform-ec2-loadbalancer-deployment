@@ -104,7 +104,7 @@ Run the following command to deploy the infrastructure:
 ```bash
 terraform apply
 ```
-Terraform will prompt for confirmation before creating the resources. Type yes to proceed.
+ Terraform will prompt for confirmation before creating the resources. Type yes to proceed.
 
 5. **Access Public Load Balancer**
 Once the infrastructure is deployed, retrieve the Public Load Balancer DNS from the Terraform output and open it in a browser. It should route the traffic to the private EC2 instances.
