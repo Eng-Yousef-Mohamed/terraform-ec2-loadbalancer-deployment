@@ -18,8 +18,7 @@ This project automates the deployment of a highly available and scalable infrast
     - [7. Cleanup](#7-cleanup)
 6. [Customization](#customization)
 7. [Screenshots](#screenshots)
-8. [Remote Provisioning](#remote-provisioning)
-    - [Sample IP Output](#sample-ip-output)
+
 
 
 ## Architecture Overview
