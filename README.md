@@ -20,8 +20,7 @@ This project automates the deployment of a highly available and scalable infrast
 7. [Screenshots](#screenshots)
 8. [Remote Provisioning](#remote-provisioning)
     - [Sample IP Output](#sample-ip-output)
-9. [Contributing](#contributing)
-10. [License](#license)
+
 
 ## Architecture Overview
 
@@ -74,3 +73,55 @@ terraform-ec2-loadbalancer-deployment/
 │   ├── destroyALL.sh              # Script to destroy all resources
 │   └── setup.sh                   # Script to initialize resources
 └── variables.tf                   # Input variables for the project
+```
+## Requirements
+- **Terraform**: Ensure Terraform is installed on your system.
+- **AWS Account**: Configure AWS credentials with necessary permissions.
+- **S3 Bucket**: Set up an S3 bucket to store the remote state.
+
+## Setup Instructions
+1. **Clone the repository**
+```bash
+git clone [https://github.com/yourusername/terraform-ec2-loadbalancer-deployment.git](https://github.com/Black-5-Knight/terraform-ec2-loadbalancer-deployment.git)
+cd terraform-ec2-loadbalancer-deployment
+```
+
+2. **Initialize Terraform**
+   
+```bash
+terraform init
+This will initialize Terraform and download the required providers and modules.
+```
+3. **Set up Remote State**
+Navigate to the remote-state-setup/ directory and apply the configuration to set up the remote state:
+
+```bash
+cd remote-state-setup
+terraform apply
+```
+4. **Deploy the Infrastructure**
+Run the following command to deploy the infrastructure:
+
+```bash
+terraform apply
+```
+Terraform will prompt for confirmation before creating the resources. Type yes to proceed.
+
+5. **Access Public Load Balancer**
+Once the infrastructure is deployed, retrieve the Public Load Balancer DNS from the Terraform output and open it in a browser. It should route the traffic to the private EC2 instances.
+
+6. **View All IPs**
+The IP addresses of all EC2 instances (both public and private) will be saved in the all-ips.txt file. To view the file:
+
+```bash
+cat all-ips.txt
+```
+7. **Cleanup**
+To destroy the infrastructure and remove all resources, run the following script:
+
+```bash
+./scripts/destroyALL.sh
+```
+- **Customization**
+- **NGINX Configuration**: You can modify the NGINX proxy settings in the nginx_config.conf file.
+EC2 Instances: The number of EC2 instances, instance types, and other parameters can be adjusted in the variables.tf file.
