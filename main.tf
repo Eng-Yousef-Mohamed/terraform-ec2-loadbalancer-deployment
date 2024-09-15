@@ -36,8 +36,7 @@ module "private_load_balancer_mod" {
   Name = var.private_lb_Name
   ec2_ids = module.ec2_mod.private_ec2_ids
   vpc_id = module.vpc_mod.vpc_id
-  subnet_ids = module.vpc_mod.private_subnet_ids
+  subnet_ids = module.vpc_mod.public_subnet_ids
   security_group_id = module.ec2_mod.private_security_group_id
   
 }
-

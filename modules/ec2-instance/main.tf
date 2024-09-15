@@ -40,8 +40,7 @@ resource "aws_instance" "public_ec2"{
     provisioner "remote-exec" {
         inline = [
         "sudo yum install -y nginx"  , 
-        "sudo cp /tmp/nginx_config.conf  /etc/nginx/conf.d/",
-        
+        "sudo cp /tmp/nginx_config.conf  /etc/nginx/conf.d/"
         ]
 
         # Connection details
@@ -55,7 +54,6 @@ resource "aws_instance" "public_ec2"{
 
   
 }
-
 
 
 resource "aws_instance" "private_ec2"{
@@ -133,7 +131,7 @@ resource "tls_private_key" "pk" {
 }
 
 resource "aws_key_pair" "kp" {
-  key_name   = "myKey"       # Create "myKey" to AWS!!
+  key_name   = "myKey1"       # Create "myKey" to AWS!!
   public_key = tls_private_key.pk.public_key_openssh
 
 provisioner "local-exec" { # Create "myKey.pem" to your computer!!
@@ -144,4 +142,3 @@ EOT
   }
 
 }
-

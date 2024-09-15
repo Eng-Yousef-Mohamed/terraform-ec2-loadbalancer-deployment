@@ -34,23 +34,3 @@ resource "aws_lb_target_group_attachment" "target_group_attachment" {
   port             = 80
 }
 
-#  # Security group for ALB 
-# resource "aws_security_group" "alb_public_sg" {
-#     name = "public-security-group"
-
-#   vpc_id = var.vpc_id
-
-#   ingress {
-#     from_port   = var.HTTP_port
-#     to_port     = var.HTTP_port
-#     protocol    = "tcp"
-#     cidr_blocks = ["0.0.0.0/0"]
-#   }
-
-#   egress {
-#         from_port   = 0
-#         to_port     = 0
-#         protocol    = "-1"
-#         cidr_blocks = ["0.0.0.0/0"]
-#     }
-# }
