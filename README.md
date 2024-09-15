@@ -29,7 +29,7 @@ This project automates the deployment of a highly available and scalable infrast
 4. **Private EC2 Instances**: Return their private IP address when accessed.
 5. **Remote State**: Stored in an S3 bucket.
 6. **NAT Gateway**: Enables the private EC2 instances to access the internet when needed.
-
+![](Screenshots/drawio.png)
 ## Features
 
 - **Custom Terraform Modules**: Utilizes custom modules to manage EC2 instances, load balancers, and VPC resources.
@@ -126,3 +126,5 @@ To destroy the infrastructure and remove all resources, run the following script
 - **NGINX Configuration**: You can modify the NGINX proxy settings in the nginx_config.conf file.
 EC2 Instances: The number of EC2 instances, instance types, and other parameters can be adjusted in the variables.tf file.
 ## Screenshots
+![](Screenshots/Screenshot from 2024-09-16 01-34-42.png)
+![](Screenshots/Screenshot from 2024-09-16 01-34-54.png)
