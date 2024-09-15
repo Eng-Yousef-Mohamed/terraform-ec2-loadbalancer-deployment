@@ -126,5 +126,5 @@ To destroy the infrastructure and remove all resources, run the following script
 - **NGINX Configuration**: You can modify the NGINX proxy settings in the nginx_config.conf file.
 EC2 Instances: The number of EC2 instances, instance types, and other parameters can be adjusted in the variables.tf file.
 ## Screenshots
-![](Screenshots/Screenshot from 2024-09-16 01-34-42.png)
-![](Screenshots/Screenshot from 2024-09-16 01-34-54.png)
+![](Screenshots/1.png)
+![](Screenshots/2.png)
