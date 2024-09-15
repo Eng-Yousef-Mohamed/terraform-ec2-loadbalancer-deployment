@@ -52,6 +52,7 @@ resource "aws_instance" "public_ec2"{
         host        = self.public_ip
         }
     }
+
   
 }
 
@@ -72,6 +73,7 @@ resource "aws_instance" "private_ec2"{
     }
     
 }
+
 
 resource "aws_security_group" "public_security-group" {
     name = "public-security-group"
@@ -142,3 +144,4 @@ EOT
   }
 
 }
+

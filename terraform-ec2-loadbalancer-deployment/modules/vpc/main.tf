@@ -95,7 +95,6 @@ resource "aws_eip" "nat_eip" {
   count = var.allow_nat_gateway ? 1 : 0
   domain = "vpc"
 
-
 }
 
 #Create the NAT Gateway
