@@ -66,7 +66,10 @@ resource "aws_route_table" "public_route_table" {
 resource "aws_route_table" "private_route_table" {
   count = length(var.private_subnets_cidr) > 0 ? 1 : 0  #use to prevent creation of rw if not private subnet entered 
   vpc_id =  aws_vpc.aws_vpc.id
-
+  route {
+    cidr_block              = "0.0.0.0/0"
+    nat_gateway_id          = aws_nat_gateway.nat_gateway[0].id
+  }
   tags = {
     Name = "private_route_table_${var.vpc_Name}"
     created-by="Yousef"
@@ -85,4 +88,24 @@ resource "aws_route_table_association" "private_association" {
   count          = length(var.private_subnets_cidr)
   subnet_id      = aws_subnet.private_subnet[count.index].id
   route_table_id = aws_route_table.private_route_table[0].id
+}
+
+# Create an Elastic IP for NAT Gateway
+resource "aws_eip" "nat_eip" {
+  count = var.allow_nat_gateway ? 1 : 0
+  domain = "vpc"
+
+}
+
+#Create the NAT Gateway
+resource "aws_nat_gateway" "nat_gateway" {
+  count =  var.allow_nat_gateway  ? 1 : 0
+  subnet_id = aws_subnet.public_subnet[0].id
+  allocation_id = aws_eip.nat_eip[0].id
+
+
+  tags = {
+    Name = "nat_gateway_${var.vpc_Name}"
+    created-by = "Yousef"
+  }
 }

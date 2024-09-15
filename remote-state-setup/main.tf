@@ -13,20 +13,17 @@ terraform {
 provider "aws" {
   shared_config_files = [ "~/.aws/config" ]
   shared_credentials_files = [ "~/.aws/credentials" ]
+  region = "eu-north-1"
 }
 
 resource "aws_s3_bucket" "aws_bucket" {
-  bucket = "terraform-state-s3-yousef"  # Replace with a unique bucket name
-
+  bucket = "terraform-state-s3-yousef"  
+  
+  force_destroy = true
   tags = {
     Name        = "Terraform State Bucket"
  
   }
-}
-resource "aws_s3_bucket_acl" "acl" {
-    bucket = aws_s3_bucket.aws_bucket.id
-    acl    = "private"
-  
 }
 
 resource "aws_s3_bucket_versioning" "versioning" {

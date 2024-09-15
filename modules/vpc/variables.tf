@@ -25,3 +25,8 @@ variable "availability_Zones_subnet" {
   type = list(string)
 }
 
+
+variable "allow_nat_gateway" {
+  description = "allow to creat internt nat gateway"
+  type = bool
+}

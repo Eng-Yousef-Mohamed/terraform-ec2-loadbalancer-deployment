@@ -4,7 +4,7 @@
 set -e
 
 # Destroy resources in the first directory
-cd ~/partionA/terraform_final_boss
+cd ~/partionA/terraform-ec2-loadbalancer-deployment
 terraform destroy -auto-approve
 
 # Destroy resources in the second directory related to the remote backend state file
