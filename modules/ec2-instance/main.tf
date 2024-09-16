@@ -152,7 +152,8 @@ resource "null_resource" "write_ips_to_file" {
       echo $ip >> all-ips.txt
     done
     EOT
-  }
+  }#join function used to make space sprate between ip then use in for loob to print it in file 
+
 
   depends_on = [aws_instance.public_ec2, aws_instance.private_ec2]
 }
