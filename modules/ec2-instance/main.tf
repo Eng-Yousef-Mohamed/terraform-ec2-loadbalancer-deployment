@@ -1,10 +1,11 @@
-# data "template_file" "nginx_config" {
-#   template = file("${path.module}/templates/nginx_config.tpl")
+data "template_file" "nginx_config" {
+  template = file("${path.module}/templates/nginx_config.tpl")
 
-#   vars = {
-#     load_balancer_dns = var.load_balancer_dns
-#   }
-# }
+  vars = {
+    load_balancer_dns = var.load_balancer_dns
+  }
+ 
+}
 
 resource "aws_instance" "public_ec2"{
     count =length(var.public_subnet_id) 
@@ -21,9 +22,12 @@ resource "aws_instance" "public_ec2"{
         created-by="Yousef"
     }
     
+}
+resource "null_resource" "null_resource" {
+    count = length(var.public_subnet_id) 
     provisioner "file" {
-        source      = "/home/youasf/partionA/terraform-ec2-loadbalancer-deployment/nginx_config.conf" # Local config file
-        #source       = data.template_file.nginx_config.rendered  
+        #source       ="/home/youasf/partionA/terraform-ec2-loadbalancer-deployment/nginx_config.conf" # Local config file
+        source       = data.template_file.nginx_config.rendered  
         destination = "/tmp/nginx_config.conf" # Remote path on EC2
 
         # Connection details
@@ -31,7 +35,7 @@ resource "aws_instance" "public_ec2"{
         type        = "ssh"
         user        = "ec2-user"
         private_key = tls_private_key.pk.private_key_pem
-        host        = self.public_ip
+        host        = aws_instance.public_ec2[count.index].public_ip
         }
     }
 
@@ -48,11 +52,9 @@ resource "aws_instance" "public_ec2"{
         type        = "ssh"
         user        = "ec2-user"
         private_key = tls_private_key.pk.private_key_pem
-        host        = self.public_ip
+        host        = aws_instance.public_ec2[count.index].public_ip
         }
     }
-
-  
 }
 
 
@@ -141,4 +143,21 @@ chmod 400 ./myKey1.pem
 EOT
   }
 
+}
+#print ips in file name all-ips
+resource "null_resource" "write_ips_to_file" {
+  provisioner "local-exec" {
+    command = <<EOT
+    echo "Public IPs:" > all-ips.txt
+    for ip in ${join(" ", aws_instance.public_ec2.*.public_ip)}; do
+      echo $ip >> all-ips.txt
+    done
+    echo "Private IPs:" >> all-ips.txt
+    for ip in ${join(" ", aws_instance.private_ec2.*.private_ip)}; do
+      echo $ip >> all-ips.txt
+    done
+    EOT
+  }
+
+  depends_on = [aws_instance.public_ec2, aws_instance.private_ec2]
 }
