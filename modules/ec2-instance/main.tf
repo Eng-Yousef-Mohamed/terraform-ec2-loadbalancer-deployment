@@ -1,11 +1,4 @@
-data "template_file" "nginx_config" {
-  template = file("${path.module}/templates/nginx_config.tpl")
 
-  vars = {
-    load_balancer_dns = var.load_balancer_dns
-  }
- 
-}
 
 resource "aws_instance" "public_ec2"{
     count =length(var.public_subnet_id) 
@@ -25,9 +18,10 @@ resource "aws_instance" "public_ec2"{
 }
 resource "null_resource" "null_resource" {
     count = length(var.public_subnet_id) 
+    depends_on = [ null_resource.make_config_file ]
     provisioner "file" {
-        #source       ="/home/youasf/partionA/terraform-ec2-loadbalancer-deployment/nginx_config.conf" # Local config file
-        source       = data.template_file.nginx_config.rendered  
+        source       ="/home/youasf/partionA/terraform-ec2-loadbalancer-deployment/nginx_config.conf" # Local config file
+        #source       = data.template_file.nginx_config.rendered  
         destination = "/tmp/nginx_config.conf" # Remote path on EC2
 
         # Connection details
@@ -152,6 +146,7 @@ resource "null_resource" "write_ips_to_file" {
     for ip in ${join(" ", aws_instance.public_ec2.*.public_ip)}; do
       echo $ip >> all-ips.txt
     done
+    
     echo "Private IPs:" >> all-ips.txt
     for ip in ${join(" ", aws_instance.private_ec2.*.private_ip)}; do
       echo $ip >> all-ips.txt
@@ -160,4 +155,25 @@ resource "null_resource" "write_ips_to_file" {
   }
 
   depends_on = [aws_instance.public_ec2, aws_instance.private_ec2]
+}
+
+resource "null_resource" "make_config_file" {
+  provisioner "local-exec" {
+    command = <<EOT
+    echo "server {
+    listen 80;
+    server_name _;  # Your EC2 instance's public IP address
+
+    location / {
+        proxy_pass http://${var.load_balancer_dns}:80;  # Your load balancer's DNS name
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+    }
+}
+" > nginx_config.conf
+    EOT
+  }
+
 }
