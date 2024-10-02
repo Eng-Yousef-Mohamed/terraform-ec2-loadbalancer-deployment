@@ -127,16 +127,19 @@ resource "tls_private_key" "pk" {
 }
 
 resource "aws_key_pair" "kp" {
-  key_name   = "myKey1"       # Create "myKey" to AWS!!
+  key_name   = var.key_Name       # Create "myKey" to AWS!!
   public_key = tls_private_key.pk.public_key_openssh
 
-provisioner "local-exec" { # Create "myKey.pem" to your computer!!
+}
+# Save the private key to a file locally (will be destroyed with the key_pair resource)
+resource "local_file" "private_key" {
+  content  = tls_private_key.pk.private_key_pem
+  filename = "${path.cwd}/${var.key_Name}.pem"
+  provisioner "local-exec" {
     command = <<EOT
-echo '${tls_private_key.pk.private_key_pem}' > ./myKey1.pem
-chmod 400 ./myKey1.pem
-EOT
+    chmod 400 ${path.cwd}/${var.key_Name}.pem
+    EOT
   }
-
 }
 #print ips in file name all-ips
 resource "null_resource" "write_ips_to_file" {
