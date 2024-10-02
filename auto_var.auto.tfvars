@@ -10,6 +10,7 @@ allow_nat_gateway = true
 ec2_Name = "test1"
 ami_id = "ami-090abff6ae1141d7d"
 instance_type = "t3.micro"
+key_Name = "private_key"
 
 # Values for the Public Load Balancer module
 public_lb_Name = "public"

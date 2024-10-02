@@ -18,6 +18,7 @@ module "ec2_mod" {
   vpc_id =  module.vpc_mod.vpc_id
   ami_id = var.ami_id
   instance_type = var.instance_type
+  key_Name = var.key_Name
   load_balancer_dns = module.private_load_balancer_mod.load_balancer_dns
 
 }

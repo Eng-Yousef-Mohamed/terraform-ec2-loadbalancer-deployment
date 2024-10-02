@@ -44,6 +44,10 @@ variable "instance_type" {
   type        = string
 }
 
+variable "key_Name" {
+  description = "The name of the SSH key pair associated with the EC2 instance for secure access."
+  type = string
+}
 
 # Variables for the Load Balancer module
 variable "public_lb_Name" {
