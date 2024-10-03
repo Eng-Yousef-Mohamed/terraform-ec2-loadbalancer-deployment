@@ -3,7 +3,7 @@
 # Exit on any error
 set -e
 
-cd ../remote-state-setup
+cd ./remote-state-setup
 
 # Apply resources related to the remote backend state file
 terraform init  # Initialize the directory
