@@ -7,6 +7,7 @@ terraform {
       version = "~> 5.0.0"
     }
   }
+  
   #   backend "s3" {
   #   bucket         = "terraform-state-s3-yousef"  # Replace with your bucket name
   #   key            = "state.tfstate"  # Path within the bucket
