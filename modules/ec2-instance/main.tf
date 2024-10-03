@@ -9,19 +9,36 @@ resource "aws_instance" "public_ec2"{
     key_name = aws_key_pair.kp.key_name #key pair attach
     associate_public_ip_address = "true"
     user_data =file("./modules/ec2-instance/public_user_data.sh")
- 
+
     tags = {
         Name = "${var.Name}_public_ec2_${count.index + 1}",
         created-by="Yousef"
     }
     
 }
-resource "null_resource" "null_resource" {
+
+resource "aws_instance" "private_ec2"{
+    count = length(var.private_subnet_id)
+    ami = var.ami_id
+    instance_type = var.instance_type
+    subnet_id = var.private_subnet_id[count.index]
+    vpc_security_group_ids = [aws_security_group.private_security-group.id]
+    key_name = aws_key_pair.kp.key_name #key pair attach
+    associate_public_ip_address = "false"
+    user_data =file("./modules/ec2-instance/private_user_data.sh")
+
+    tags = {
+        Name = "${var.Name}_private_ec2_${count.index + 1}",
+        created-by="Yousef"
+    }
+    
+}
+
+resource "null_resource" "config_nginx" {
     count = length(var.public_subnet_id) 
-    depends_on = [ null_resource.make_config_file ]
+    depends_on =[ local_file.make_config_file ] 
     provisioner "file" {
-        source       ="/home/youasf/partionA/terraform-ec2-loadbalancer-deployment/nginx_config.conf" # Local config file
-        #source       = data.template_file.nginx_config.rendered  
+        source       ="./nginx_config.conf" # Local config file
         destination = "/tmp/nginx_config.conf" # Remote path on EC2
 
         # Connection details
@@ -38,7 +55,8 @@ resource "null_resource" "null_resource" {
     provisioner "remote-exec" {
         inline = [
         "sudo yum install -y nginx"  , 
-        "sudo cp /tmp/nginx_config.conf  /etc/nginx/conf.d/"
+        "sudo cp /tmp/nginx_config.conf  /etc/nginx/conf.d/",
+        "sudo systemctl restart nginx"
         ]
 
         # Connection details
@@ -52,21 +70,6 @@ resource "null_resource" "null_resource" {
 }
 
 
-resource "aws_instance" "private_ec2"{
-    count = length(var.private_subnet_id)
-    ami = var.ami_id
-    instance_type = var.instance_type
-    subnet_id = var.private_subnet_id[count.index]
-    vpc_security_group_ids = [aws_security_group.private_security-group.id]
-    key_name = aws_key_pair.kp.key_name #key pair attach
-    associate_public_ip_address = "false"
-    user_data =file("./modules/ec2-instance/private_user_data.sh")
-    tags = {
-        Name = "${var.Name}_private_ec2_${count.index + 1}",
-        created-by="Yousef"
-    }
-    
-}
 
 
 resource "aws_security_group" "public_security-group" {
@@ -120,14 +123,14 @@ resource "aws_security_group" "private_security-group" {
     }
 }
 
-
+# create private key for ssh connection 
 resource "tls_private_key" "pk" {
   algorithm = "RSA"
   rsa_bits  = 4096
 }
-
+ # Create the key to AWS!!
 resource "aws_key_pair" "kp" {
-  key_name   = var.key_Name       # Create "myKey" to AWS!!
+  key_name   = var.key_Name      
   public_key = tls_private_key.pk.public_key_openssh
 
 }
@@ -141,6 +144,7 @@ resource "local_file" "private_key" {
     EOT
   }
 }
+
 #print ips in file name all-ips
 resource "null_resource" "write_ips_to_file" {
   provisioner "local-exec" {
@@ -161,12 +165,11 @@ resource "null_resource" "write_ips_to_file" {
   depends_on = [aws_instance.public_ec2, aws_instance.private_ec2]
 }
 
-resource "null_resource" "make_config_file" {
-  provisioner "local-exec" {
-    command = <<EOT
-    echo "server {
+resource "local_file" "make_config_file" {
+    content = <<EOT
+server {
     listen 80;
-    server_name _;  # Your EC2 instance's public IP address
+    server_name _;  # any ip
 
     location / {
         proxy_pass http://${var.load_balancer_dns}:80;  # Your load balancer's DNS name
@@ -176,8 +179,8 @@ resource "null_resource" "make_config_file" {
         proxy_set_header X-Forwarded-Proto $scheme;
     }
 }
-" > nginx_config.conf
-    EOT
-  }
-
+EOT
+    filename = "./nginx_config.conf"  # Specify the path where you want to save the config
 }
+
+
