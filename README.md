@@ -35,7 +35,7 @@ This project automates the deployment of a highly available and scalable infrast
 - **Custom Terraform Modules**: Utilizes custom modules to manage EC2 instances, load balancers, and VPC resources.
 - **Remote State Management**: The Terraform state file is stored in an S3 bucket for safe storage and collaboration.
 - **Dynamic IP Output**: Public and private IPs of the EC2 instances are stored in a file (`all-ips.txt`).
-- **Automated Provisioning**: Apache or NGINX is installed on EC2 instances via remote provisioner.
+- **Automated Provisioning**: NGINX is installed on EC2 instances via remote provisioner.
 - **Scalable and Secure**: Combines public and private EC2 instances with NAT Gateway for secure traffic management.
 
 ## Project Structure
@@ -81,14 +81,14 @@ terraform-ec2-loadbalancer-deployment/
 ## Setup Instructions
 1. **Clone the repository**
 ```bash
-git clone [https://github.com/yourusername/terraform-ec2-loadbalancer-deployment.git](https://github.com/Black-5-Knight/terraform-ec2-loadbalancer-deployment.git)
+git clone https://github.com/Black-5-Knight/terraform-ec2-loadbalancer-deployment.git
 cd terraform-ec2-loadbalancer-deployment
 ```
 
 2. **Initialize Terraform**
-   
+ 
 ```bash
-terraform init
+terraform init 
 ```
 This will initialize Terraform and download the required providers and modules.
 
@@ -100,7 +100,7 @@ cd remote-state-setup
 terraform apply
 ```
 4. **Deploy the Infrastructure**
-Run the following command to deploy the infrastructure:
+Go to main file and run the following command to deploy the infrastructure:
 
 ```bash
 terraform apply
@@ -120,7 +120,7 @@ cat all-ips.txt
 To destroy the infrastructure and remove all resources, run the following script:
 
 ```bash
-./scripts/destroyALL.sh
+./scripts/destroy_all.sh
 ```
 ## Customization 
 - **NGINX Configuration**: You can modify the NGINX proxy settings in the ec2 module
