@@ -102,8 +102,7 @@ resource "aws_nat_gateway" "nat_gateway" {
   count =  var.allow_nat_gateway  ? 1 : 0
   subnet_id = aws_subnet.public_subnet[0].id
   allocation_id = aws_eip.nat_eip[0].id
-
-
+  
   tags = {
     Name = "nat_gateway_${var.vpc_Name}"
     created-by = "Yousef"
