@@ -79,9 +79,27 @@ terraform-ec2-loadbalancer-deployment/
 - **S3 Bucket**: Set up an S3 bucket to store the remote state.
 
 ## Setup Instructions
+
+
+
+
+### Option 1: Automatic Setup (Recommended)
+
+1. **Run the Setup Script**
+
+To automate all the steps, simply execute the provided `setup.sh` script. This script will handle everything from initializing Terraform to deploying the infrastructure.
+
+```bash
+git clone https://github.com/Eng-Yousef-Mohamed/terraform-ec2-loadbalancer-deployment.git
+chmod +x setup.sh
+./setup.sh
+```
+
+### Option 2: Manual Setup
+
 1. **Clone the repository**
 ```bash
-git clone https://github.com/Black-5-Knight/terraform-ec2-loadbalancer-deployment.git
+git clone https://github.com/Eng-Yousef-Mohamed/terraform-ec2-loadbalancer-deployment.git
 cd terraform-ec2-loadbalancer-deployment
 ```
 
