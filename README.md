@@ -42,6 +42,8 @@ This project deployment of a highly available and scalable infrastructure on AWS
 
 ```bash
 terraform-ec2-loadbalancer-deployment/
+├── auto_var.auto.tfvars           # Automatically loaded variables
+├── destroy_all.sh                 # Script to destroy all resources
 ├── main.tf                        # Main Terraform configuration
 ├── modules/                       # Custom Terraform modules
 │   ├── ec2-instance/              # EC2 module
@@ -49,30 +51,33 @@ terraform-ec2-loadbalancer-deployment/
 │   │   ├── outputs.tf
 │   │   ├── private_user_data.sh   # NGINX config for private instances
 │   │   ├── public_user_data.sh    # NGINX config for public instances
-│   │   ├── README.md
-│   │   ├── templates/             # Additional templates for EC2 config
 │   │   └── variables.tf
 │   ├── load-balancer/             # Load Balancer module
 │   │   ├── main.tf
 │   │   ├── outputs.tf
-│   │   ├── README.md
 │   │   └── variables.tf
 │   └── vpc/                       # VPC module for networking
 │       ├── main.tf
 │       ├── outputs.tf
-│       ├── README.md
 │       └── variables.tf
-├── nginx_config.conf              # NGINX configuration file
 ├── outputs.tf                     # Terraform outputs
 ├── provider.tf                    # Provider configuration (AWS)
 ├── README.md                      # Project documentation (this file)
 ├── remote-state-setup/            # Remote state management setup
 │   └── main.tf
-├── scripts/                       # Shell scripts for setup and teardown
-│   ├── destroyALL.sh              # Script to destroy all resources
-│   └── setup.sh                   # Script to initialize resources
+├── Screenshots/                   # Folder containing project screenshots
+│   ├── 1.png
+│   ├── 2.png
+│   ├── drawio.png
+│   ├── Screenshot from 2024-09-16 01-33-45.png
+│   └── Screenshot from 2024-09-16 01-38-17.png
+├── setup.sh                       # Script to automate setup
+├── Task.md                        # Task description and instructions
+├── terraform.tfstate              # Current Terraform state file
+├── terraform.tfstate.backup       # Backup of the previous state
 └── variables.tf                   # Input variables for the project
 ```
+
 ## Requirements
 - **Terraform**: Ensure Terraform is installed on your system.
 - **AWS Account**: Configure AWS credentials with necessary permissions.
