@@ -113,7 +113,7 @@ resource "aws_security_group" "private_security-group" {
         from_port   = var.HTTP_port
         to_port     = var.HTTP_port
         protocol    = "tcp"
-        cidr_blocks = ["0.0.0.0/0"]# This should be updated to reflect the VPC CIDR block. However, since the private EC2 instances do not have internet access, this configuration does not currently impact them.
+        cidr_blocks = [vpc_cidr_block] #we put vpc cider here to make it local only 
     }
     egress {
         from_port   = 0
