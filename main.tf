@@ -13,6 +13,7 @@ module "ec2_mod" {
   
   source = "./modules/ec2-instance"
   Name = var.ec2_Name
+  vpc_cidr_block = var.vpc_cidr_block
   public_subnet_id = module.vpc_mod.public_subnet_ids
   private_subnet_id = module.vpc_mod.private_subnet_ids
   vpc_id =  module.vpc_mod.vpc_id
