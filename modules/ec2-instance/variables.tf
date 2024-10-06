@@ -49,6 +49,10 @@ variable "key_Name" {
   description = "The name of the SSH key pair associated with the EC2 instance for secure access."
   type = string
 }
+variable "vpc_cidr_block" {
+  description = "value"
+  type = string
+}
 # variable "public_ec2_user_data" {
 #   type = list(string)
 # }
