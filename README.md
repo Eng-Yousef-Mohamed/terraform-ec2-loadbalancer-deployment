@@ -3,22 +3,22 @@
 This project deployment of a highly available and scalable infrastructure on AWS using Terraform. The architecture includes multiple EC2 instances, both public and private, behind load balancers, with traffic managed via NGINX proxies. A NAT Gateway is used to enable internet access for private EC2 instances. The state of the infrastructure is stored in an S3 bucket for remote state management.
 
 ## Table of Contents
-
 1. [Architecture Overview](#architecture-overview)
 2. [Features](#features)
 3. [Project Structure](#project-structure)
 4. [Requirements](#requirements)
 5. [Setup Instructions](#setup-instructions)
-    - [1. Clone the repository](#1-clone-the-repository)
-    - [2. Initialize Terraform](#2-initialize-terraform)
-    - [3. Set up Remote State](#3-set-up-remote-state)
-    - [4. Deploy the Infrastructure](#4-deploy-the-infrastructure)
-    - [5. Access Public Load Balancer](#5-access-public-load-balancer)
-    - [6. View All IPs](#6-view-all-ips)
-    - [7. Cleanup](#7-cleanup)
+    - [Option 1: Automatic Setup (Recommended)](#option-1-automatic-setup-recommended)
+    - [Option 2: Manual Setup](#option-2-manual-setup)
+        - [1. Clone the repository](#1-clone-the-repository)
+        - [2. Initialize Terraform](#2-initialize-terraform)
+        - [3. Set up Remote State](#3-set-up-remote-state)
+        - [4. Deploy the Infrastructure](#4-deploy-the-infrastructure)
+        - [5. Access Public Load Balancer](#5-access-public-load-balancer)
+        - [6. View All IPs](#6-view-all-ips)
+        - [7. Cleanup](#7-cleanup)
 6. [Customization](#customization)
 7. [Screenshots](#screenshots)
-
 
 
 ## Architecture Overview
