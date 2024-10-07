@@ -1,27 +1,33 @@
-# AWS EC2 and Load Balancer Infrastructure Deployment using Terraform
-
+# Terraform EC2 and Load Balancer Deployment
+This document serves as a comprehensive guide for anyone want to creat and deploy this project. Whether you are a seasoned Devops eng or just starting your journey in cloud infrastructure, this project is designed to enhance your understanding of AWS and Terraform. 
 ## Project Overview
-This project involves deploying a scalable and secure infrastructure on AWS using Terraform. The architecture consists of four EC2 instances and two load balancers, distributed between public and private subnets. 
+| Description           | Details                                    |
+|-----------------------|--------------------------------------------|
+| Purpose               | Deploy a scalable and secure infrastructure on AWS using Terraform.         |
+| Main Features         | Architecture includes four EC2 instances and two load balancers in public and private subnets in two different availability zone. |
 
-### Key Components:
-- **Public EC2 Instances:** Two EC2 instances deployed in public subnets, accessible via the internet.
-- **Private EC2 Instances:** Two additional EC2 instances deployed in private subnets, isolated from direct internet access.
-- **Load Balancers:** A public-facing load balancer distributes traffic to the public EC2 instances, while a second private load balancer manages traffic directed to the private EC2 instances.
-- **Custom Terraform Modules:** The infrastructure is deployed using custom-built modules (you made), ensuring modularity and scalability for future use cases.
-- **State Management:** The Terraform state file is stored securely in an S3 bucket, enabling collaboration and version control of the infrastructure state.
-- **Remote Provisioning:** nginx server is installed on the EC2 instances ensuring the application stack is set up automatically upon instance creation.
-- **Output Logging:** After deployment, the public and private IP addresses of the instances are captured and stored in a text file (`all-ips.txt`) using a local-exec provisioner. This file contains a structured list of IP addresses, formatted for easy reference.
-- **Traffic Flow:** The public load balancer manages incoming traffic, forwarding it to publice instance then forwarding it to the private load balancer, which then directs requests to the private EC2 instances, ensuring a secure and efficient traffic distribution.
+### Main Features
+| Feature                | Description                             |
+|------------------------|-----------------------------------------|
+| Public EC2 Instances    | Two instances in public subnets,in two different availability zone,accessible via the internet. |
+| Private EC2 Instances   | Two instances in private subnets,in two different availability zone, isolated from direct internet access. |
+| Load Balancers          | Public-facing load balancer for public instances; private load balancer for private instances. |
+| Custom Terraform Modules | Deployed using custom-built modules for scalability. |
+| State Management        | Terraform state stored securely in an S3 bucket. |
+| Remote Provisioning     | nginx or Apache server installed automatically on EC2 instances. |
+| Output Logging          | Public and private IP addresses saved in `all-ips.txt`. |
+| Traffic Flow           | Public load balancer forwards traffic to public instances, which then direct requests to private load balancer then to private instances. |
 
-## Instructions
-1. **Custom Modules:** Use custom-built modules (not public ones) to implement the infrastructure as per the architecture.
-2. **State File:** Store the Terraform state file in a remote S3 bucket for secure and reliable state management.
-3. **Provisioning:** Use the remote provisioner to install either Apache or a proxy on the EC2 instances. After setup, use the `local-exec` provisioner to print the IP addresses of all EC2 instances to a file called `all-ips.txt`.
-4. **Load Balancers:** The first load balancer must be public-facing, while the second should handle internal traffic and direct it to the private EC2 instances.
-5. **Proxy Configuration Screenshot:** Take a screenshot of the proxy configuration for documentation.
-6. **DNS Screenshot:** After setting up the public load balancer, capture a screenshot of its DNS responding to traffic when accessed through a browser, showing that it successfully returns content from the private EC2 instances.
-7. **State File Screenshot:** Capture a screenshot of the S3 bucket that contains the Terraform state file, demonstrating proper state management.
+## Implementation Steps
+| Step | Action                               | Details                |
+|------|--------------------------------------|------------------------|
+| 1    | Using Custom Modules                 | Implement the infrastructure using custom, not public, Terraform modules based on the architecture diagram included in the README. |
+| 2    | State File Management                | Store the Terraform state file in a remote S3 bucket for secure management. |
+| 3    | Provisioning                         | Use a remote provisioner to install nginx or Apache on the EC2 instances. Then, utilize `local-exec` to print all IPs to a file named `all-ips.txt` in the format: `public-ip1 1.1.1.1 public-ip2 2.2.2.2`. |
+| 4    | Load Balancer Configuration          | The first load balancer must be public, while the second load balancer will send traffic to the private EC2 instances. |
+| 5    | Documentation                        | Take a screenshot of the proxy configuration. |
+| 6    | DNS Verification                     | Capture a screenshot of the public DNS of the load balancer when traffic is sent from a browser, showing it returns content from the private EC2 instances. |
+| 7    | State File Verification              | Screenshot the S3 bucket that contains the Terraform state file to demonstrate proper state management. |
 
----
-
-
+### Additional Insights
+- 
