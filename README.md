@@ -66,11 +66,6 @@ terraform-ec2-loadbalancer-deployment/
 ├── remote-state-setup/            # Remote state management setup
 │   └── main.tf
 ├── Screenshots/                   # Folder containing project screenshots
-│   ├── 1.png
-│   ├── 2.png
-│   ├── drawio.png
-│   ├── Screenshot from 2024-09-16 01-33-45.png
-│   └── Screenshot from 2024-09-16 01-38-17.png
 ├── setup.sh                       # Script to automate setup
 ├── Task.md                        # Task description and instructions
 ├── terraform.tfstate              # Current Terraform state file
